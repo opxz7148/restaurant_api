@@ -22,14 +22,19 @@ public class RestaurantController {
         return restaurantService.getAll();
     }
 
-    @GetMapping("/restaurants/{id}")
-    public Restaurant getRestaurant(@PathVariable UUID id) {
-        return restaurantService.getRestaurantById(id);
-    }
 
     @PostMapping("/restaurants")
     public Restaurant create(@RequestBody Restaurant restaurant) {
         return restaurantService.create(restaurant);
     }
 
+    @GetMapping("/restaurants/{id}")
+    public Restaurant getRestaurant(@PathVariable UUID id) {
+        return restaurantService.getRestaurantById(id);
+    }
+
+    @PutMapping("/restaurants")
+    public Restaurant update(@RequestBody Restaurant restaurantUpdate) {
+        return restaurantService.update(restaurantUpdate);
+    }
 }
