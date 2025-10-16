@@ -28,13 +28,18 @@ public class RestaurantController {
         return restaurantService.create(restaurant);
     }
 
+    @PutMapping("/restaurants")
+    public Restaurant update(@RequestBody Restaurant restaurantUpdate) {
+        return restaurantService.update(restaurantUpdate);
+    }
+
     @GetMapping("/restaurants/{id}")
     public Restaurant getRestaurant(@PathVariable UUID id) {
         return restaurantService.getRestaurantById(id);
     }
 
-    @PutMapping("/restaurants")
-    public Restaurant update(@RequestBody Restaurant restaurantUpdate) {
-        return restaurantService.update(restaurantUpdate);
+    @DeleteMapping("/restaurants/{id}")
+    public Restaurant deleteRestaurant(@PathVariable UUID id) {
+        return restaurantService.delete(id);
     }
 }
