@@ -50,4 +50,12 @@ public class RestaurantService {
         return record;
     }
 
+    public Restaurant getRestaurantByName(String name) {
+        return repository.findByName(name);
+    }
+
+    public List<Restaurant> getRestaurantByLocation(String location) {
+        return repository.findByLocation(location);
+    }
+
 }

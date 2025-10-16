@@ -42,4 +42,16 @@ public class RestaurantController {
     public Restaurant deleteRestaurant(@PathVariable UUID id) {
         return restaurantService.delete(id);
     }
+
+    @GetMapping("/restaurants/name/{name}")
+    public Restaurant getRestaurantByName(@PathVariable String name) {
+        return restaurantService.getRestaurantByName(name);
+    }
+
+
+    @GetMapping("/restaurants/location/{location}")
+    public List<Restaurant> getRestaurantByLocation(@PathVariable String location) {
+        return restaurantService.getRestaurantByLocation(location);
+    }
+
 }
