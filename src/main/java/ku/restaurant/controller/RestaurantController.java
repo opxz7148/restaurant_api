@@ -1,5 +1,6 @@
 package ku.restaurant.controller;
 
+import ku.restaurant.dto.RestaurantRequest;
 import ku.restaurant.entity.Restaurant;
 import ku.restaurant.repository.RestaurantRepository;
 import ku.restaurant.service.RestaurantService;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api")
 public class RestaurantController {
 
     private RestaurantService restaurantService;
@@ -24,8 +26,8 @@ public class RestaurantController {
 
 
     @PostMapping("/restaurants")
-    public Restaurant create(@RequestBody Restaurant restaurant) {
-        return restaurantService.create(restaurant);
+    public Restaurant create(@RequestBody RestaurantRequest dto) {
+        return restaurantService.create(dto);
     }
 
     @PutMapping("/restaurants")

@@ -1,5 +1,6 @@
 package ku.restaurant.repository;
 
+import ku.restaurant.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
