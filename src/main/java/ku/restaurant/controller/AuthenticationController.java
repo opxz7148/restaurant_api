@@ -50,7 +50,7 @@ public class AuthenticationController {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User myUser = userService.getUserByName(userDetails.getUsername());
-        logger.info("User: " + userDetails.getUsername() + "has been successfully logged in as " +  myUser.getRole();
+        logger.info("User: {}has been successfully logged in as {}", userDetails.getUsername(), myUser.getRole());
 
         String jwt = jwtUtil.generateToken(userDetails.getUsername());
         return ResponseEntity.ok(jwt);

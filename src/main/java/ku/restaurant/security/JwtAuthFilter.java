@@ -65,8 +65,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            // Don't set authentication, let it fall through as unauthenticated
+           throw new ServletException(e);
         }
         
         filterChain.doFilter(request, response);

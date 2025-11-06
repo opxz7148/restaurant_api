@@ -54,9 +54,7 @@ public class JwtUtil {
                     .parseSignedClaims(token);
             return true;
         } catch (Exception e) {
-            System.out.println("Invalid JWT signature: " + e.getMessage());
+            throw new JwtException(e.getMessage());
         }
-        return false;
     }
-
 }
