@@ -1,5 +1,7 @@
 package ku.restaurant.service;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import ku.restaurant.dto.RestaurantRequest;
 import ku.restaurant.entity.Restaurant;
 import ku.restaurant.repository.RestaurantRepository;
@@ -25,6 +27,9 @@ public class RestaurantService {
 
     public Restaurant create(RestaurantRequest dto) {
 
+        if (repository.existsByName(dto.getName()))
+            throw new EntityExistsException("Restaurant name already exists");
+
         Restaurant restaurant = new Restaurant();
         restaurant.setName(dto.getName());
         restaurant.setLocation(dto.getLocation());
@@ -36,7 +41,7 @@ public class RestaurantService {
     }
 
     public Restaurant getRestaurantById(UUID id) {
-        return repository.findById(id).get();
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Restaurant not found"));
     }
 
     public Restaurant update(Restaurant requestBody) {
@@ -58,7 +63,7 @@ public class RestaurantService {
     }
 
     public Restaurant getRestaurantByName(String name) {
-        return repository.findByName(name);
+        return repository.findByName(name).orElseThrow(() -> new EntityNotFoundException("Restaurant not found"));
     }
 
     public List<Restaurant> getRestaurantByLocation(String location) {

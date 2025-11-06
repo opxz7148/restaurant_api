@@ -35,4 +35,10 @@ public class UserService {
         dao.setRole("ROLE_USER");
         userRepository.save(dao);
     }
+
+    public User getUserByName(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+
 }

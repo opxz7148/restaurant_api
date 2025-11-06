@@ -1,16 +1,38 @@
 package ku.restaurant.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
 
+    private UnauthorizedEntryPointJwt unauthorizedHandler;
+
+    @Autowired
+    public SecurityConfig(UnauthorizedEntryPointJwt unauthorizedHandler) {
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
+
+    @Bean
+    public JwtAuthFilter authenticationJwtTokenFilter() {
+        return new JwtAuthFilter();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration
+    ) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,6 +48,11 @@ public class SecurityConfig {
                         )
                 )
 
+                // Set unauthorized requests exception handler
+                .exceptionHandling(
+                        exceptionHandling -> exceptionHandling.authenticationEntryPoint(unauthorizedHandler)
+                )
+
 
                 // Set permissions on endpoints
                 .authorizeHttpRequests(authorizeRequests ->
@@ -37,6 +64,12 @@ public class SecurityConfig {
                                 // All other endpoints require authentication
                                 .anyRequest().authenticated()
                 );
+        // Add the JWT Token filter
+        http.addFilterBefore(
+                authenticationJwtTokenFilter(),
+                UsernamePasswordAuthenticationFilter.class
+        );
+
         return http.build();
     }
 
